@@ -13,7 +13,7 @@ function buildUrl(baseUrl, params) {
 
 // Função para buscar os dados com filtros
 export async function fetchDebitoPago(filtroAtraso = [], dataInicio = null, dataFim = null) {
-    const baseUrl = 'http://192.168.1.35:5000/api/dados/debitopago';
+    const baseUrl = 'http://192.168.237.67:5000/api/dados/debitopago';
     const params = {
         filtro_atraso: filtroAtraso,
         data_inicio: dataInicio,
@@ -30,24 +30,3 @@ export async function fetchDebitoPago(filtroAtraso = [], dataInicio = null, data
         throw new Error('Erro ao carregar as informações');
     }
 }
-
-// Exemplo de uso
-// Sem filtros
-fetchDebitoPago()
-    .then(data => console.log(data))
-    .catch(error => console.error(error));
-
-// Com filtro de atraso
-fetchDebitoPago([30, 60])
-    .then(data => console.log(data))
-    .catch(error => console.error(error));
-
-// Com filtro de data
-fetchDebitoPago([], '2023-01-01', '2023-12-31')
-    .then(data => console.log(data))
-    .catch(error => console.error(error));
-
-// Combinando filtros
-fetchDebitoPago([30, 60], '2023-01-01', '2023-12-31')
-    .then(data => console.log(data))
-    .catch(error => console.error(error));

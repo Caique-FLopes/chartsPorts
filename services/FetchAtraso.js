@@ -1,6 +1,6 @@
 export async function fetchAtraso() {
     try {
-        const response = await fetch('http://192.168.1.35:5000/api/dados/filtro');
+        const response = await fetch('http://192.168.237.67:5000/api/dados/filtro');
 
         if (!response.ok) {
             throw new Error(`Erro: ${response.statusText}`);

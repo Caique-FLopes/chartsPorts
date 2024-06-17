@@ -7,7 +7,7 @@ export async function fetchExitoAvista(data_inicio, data_fim) {
         });
 
         // Construir a URL completa
-        const url = `http://192.168.1.35:5000/api/dados/exito_avista?${params.toString()}`;
+        const url = `http://192.168.237.67:5000/api/dados/exito_avista?${params.toString()}`;
 
         // Fazer a requisição GET
         const response = await fetch(url);

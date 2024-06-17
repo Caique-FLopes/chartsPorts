@@ -5,7 +5,7 @@ export async function fetchDadosFinanceiros(data_inicio, data_fim) {
             data_fim: data_fim
         });
 
-        const url = `http://192.168.1.35:5000/api/dados/financeiro?${params.toString()}`;
+        const url = `http://192.168.237.67:5000/api/dados/financeiro?${params.toString()}`;
 
         const response = await fetch(url);
         if (!response.ok) {

@@ -16,7 +16,7 @@ export async function fetchEixoTotal(filtro_atraso = [], data_inicio = '', data_
         }
 
         // Construir a URL completa
-        const url = `http://192.168.1.35:5000/api/dados/eixo_total?${params.toString()}`;
+        const url = `http://192.168.237.67:5000/api/dados/eixo_total?${params.toString()}`;
 
         // Fazer a requisição GET
         const response = await fetch(url);
