@@ -24,16 +24,13 @@ export default function AnaliseSimplificada() {
     return (
         <View style={styles.container}>
             <View style={styles.box}>
-                <Text style={styles.itemName}>Cobrado:</Text>
-                <Text style={styles.itemValue}>{dados.cobrado}</Text>
+                <Text style={styles.itemName}>Cobrado: {dados.cobrado}</Text>
             </View>
             <View style={styles.box}>
-                <Text style={styles.itemName}>Débito Pago:</Text>
-                <Text style={styles.itemValue}>{dados.debito_pago}</Text>
+                <Text style={styles.itemName}>Débito Pago: {dados.debito_pago}</Text>
             </View>
             <View style={styles.box}>
-                <Text style={styles.itemName}>Débito Parcelado:</Text>
-                <Text style={styles.itemValue}>{dados.debito_parcelado}</Text>
+                <Text style={styles.itemName}>Débito Parcelado: {dados.debito_parcelado}</Text>
             </View>
         </View>
     );
@@ -41,6 +38,7 @@ export default function AnaliseSimplificada() {
 
 const styles = StyleSheet.create({
     container: {
+        marginTop: 10,
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -59,8 +57,10 @@ const styles = StyleSheet.create({
     itemName: {
         fontSize: 16,
         fontWeight: 'bold',
+        textAlign: 'center'
     },
     itemValue: {
         fontSize: 16,
+        textAlign: 'center'
     },
 });

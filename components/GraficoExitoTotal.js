@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Dimensions, Text, View, StyleSheet, TouchableOpacity } from 'react-native';
-import { BarChart } from 'react-native-chart-kit';
-import { fetchDebitoPago } from '../services/FetchDebitoPago';
+import { LineChart } from 'react-native-chart-kit';
+import { fetchDebitoPago } from '../services/FetchDebitoPago'; // Ajuste conforme necessário para o seu serviço de busca
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -10,6 +10,7 @@ const chartConfig = {
     backgroundGradientTo: '#ffffff',
     color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
     labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+    formatYLabel: (y) => `${y}%`,
     style: {
         borderRadius: 16,
     },
@@ -20,7 +21,7 @@ const chartConfig = {
     },
 };
 
-export default function GraficoDebitoPago() {
+export default function GraficoExito() {
     const [carregando, setCarregando] = useState(true);
     const [dados, setDados] = useState([]);
     const [filtroAtraso, setFiltroAtraso] = useState('0 a 30');
@@ -60,6 +61,7 @@ export default function GraficoDebitoPago() {
         datasets: [
             {
                 data: Object.values(groupedData).map((arr) => arr.reduce((acc, val) => acc + val, 0)),
+                color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`, // Ajuste a cor conforme necessário
             },
         ],
     };
@@ -90,14 +92,13 @@ export default function GraficoDebitoPago() {
                 ))}
             </View>
 
-            <BarChart
+            <LineChart
                 style={styles.graphStyle}
                 data={data}
                 width={screenWidth}
                 height={220}
-                yAxisLabel="$"
                 chartConfig={chartConfig}
-                verticalLabelRotation={30}
+                bezier
             />
         </View>
     );

@@ -5,7 +5,7 @@ export async function fetchAtraso() {
         if (!response.ok) {
             throw new Error(`Erro: ${response.statusText}`);
         }
-
+        console.log(response);
         return await response.json();
     } catch (error) {
         console.error('Erro ao carregar as informações:', error.message);

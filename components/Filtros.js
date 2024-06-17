@@ -1,45 +1,69 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import RNPickerSelect from 'react-native-picker-select';
+import React, { useContext, useState, useEffect } from 'react';
+import { View, TouchableOpacity, Text, StyleSheet, ActivityIndicator } from 'react-native';
+import { FiltroContext } from '../context/contextoFiltro';
 import { fetchAtraso } from '../services/FetchAtraso';
 
-export default function Filtros() {
+const FiltroBotao = () => {
+    const { filtroAtraso, setFiltroAtraso } = useContext(FiltroContext);
+    const [filtros, setFiltros] = useState([]);
     const [carregando, setCarregando] = useState(true);
-    const [dados, setDados] = useState([]);
 
     useEffect(() => {
-        fetchAtraso()
-            .then((data) => {
-                console.log("Dados recebidos:", data);
-                setDados(data.filtro);
-            })
-            .catch(() => alert('Erro ao carregar as informações'))
-            .finally(() => setCarregando(false));
+        const carregarFiltros = async () => {
+            try {
+                const dados = await fetchAtraso();
+                setFiltros(dados.filtro);
+            } catch (error) {
+                console.error('Erro ao carregar os filtros:', error.message);
+            } finally {
+                setCarregando(false);
+            }
+        };
+
+        carregarFiltros();
     }, []);
 
     if (carregando) {
-        return (
-            <View style={styles.container}>
-                <Text>Carregando...</Text>
-            </View>
-        );
+        return <ActivityIndicator size="large" color="#007BFF" />;
     }
 
     return (
-        <View style={styles.container}>
-            <RNPickerSelect
-                onValueChange={(value) => console.log(value)}
-                items={dados.map(item => ({ label: item.label, value: item.value }))}
-            />
+        <View style={styles.buttonContainer}>
+            {filtros.map((botao) => (
+                <TouchableOpacity
+                    key={botao.value}
+                    style={[
+                        styles.button,
+                        filtroAtraso === botao.value && styles.selectedButton,
+                    ]}
+                    onPress={() => setFiltroAtraso(botao.value)}
+                >
+                    <Text style={styles.buttonText}>{botao.label}</Text>
+                </TouchableOpacity>
+            ))}
         </View>
     );
-}
+};
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
+    buttonContainer: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
         justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 50,
+        marginBottom: 20,
+    },
+    button: {
+        padding: 10,
+        margin: 5,
+        borderRadius: 5,
+        backgroundColor: '#007BFF',
+    },
+    selectedButton: {
+        backgroundColor: '#0056b3',
+    },
+    buttonText: {
+        color: '#ffffff',
     },
 });
+
+export default FiltroBotao;
