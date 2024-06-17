@@ -1,7 +1,7 @@
 // DataDisplay.js
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { fetchDadosSimplificados } from './FetchAnaliseSimplificada';
+import { fetchDadosSimplificados } from '../services/FetchAnaliseSimplificada';
 
 export default function AnaliseSimplificada() {
     const [carregando, setCarregando] = useState(true);

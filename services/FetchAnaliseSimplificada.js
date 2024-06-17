@@ -1,7 +1,7 @@
 
 export async function fetchDadosSimplificados() {
     try {
-        const response = await fetch('http://192.168.237.67:5000/api/dados');
+        const response = await fetch('http://192.168.1.35:5000/api/dados');
         const data = await response.json();
         return data;
     } catch (error) {
