@@ -60,7 +60,7 @@ export default function GraficoDebitoPago() {
         datasets: [
             {
                 data: Object.values(groupedData).map((arr) => arr.reduce((acc, val) => acc + val, 0)),
-            },
+            }, 
         ],
     };
 
@@ -74,7 +74,7 @@ export default function GraficoDebitoPago() {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.tituloGrafico}>Percentual de Exito ao Longo do Tempo</Text>
+            <Text style={styles.tituloGrafico}>Débito pago por mês</Text>
             <View style={styles.buttonContainer}>
                 {filtroBotoes.map((botao) => (
                     <TouchableOpacity

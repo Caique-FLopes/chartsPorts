@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Dimensions, Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
-import { fetchDebitoPago } from '../services/FetchDebitoPago'; // Ajuste conforme necessário para o seu serviço de busca
+import { fetchEixoTotal } from '../services/FetchEixoTotal'; // Ajuste conforme necessário para o seu serviço de busca
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -27,7 +27,7 @@ export default function GraficoExito() {
     const [filtroAtraso, setFiltroAtraso] = useState('0 a 30');
 
     useEffect(() => {
-        fetchDebitoPago()
+        fetchEixoTotal()
             .then((data) => {
                 setDados(data);
             })
@@ -44,27 +44,33 @@ export default function GraficoExito() {
     }
 
     const filtrarDadosPorAtraso = () => {
-        return dados.filter(item => item.atraso === filtroAtraso);
+        return dados.filter(item => item.ATRASO === filtroAtraso); // ajuste conforme a estrutura dos seus dados
     };
 
-    const groupedData = {};
-    filtrarDadosPorAtraso().forEach((item) => {
-        const mes = new Date(item.mes).toLocaleString('default', { month: 'long' });
-        if (!groupedData[mes]) {
-            groupedData[mes] = [];
-        }
-        groupedData[mes].push(Number(item.debito_pago));
-    });
+    const agruparDadosPorMes = () => {
+        const groupedData = {};
+        filtrarDadosPorAtraso().forEach(item => {
+            const mes = new Date(item.mes).toLocaleString('default', { month: 'long' });
+            if (!groupedData[mes]) {
+                groupedData[mes] = {
+                    total: 0,
+                    count: 0
+                };
+            }
+            groupedData[mes].total += item.exito_total;
+            groupedData[mes].count++;
+        });
 
-    const data = {
-        labels: Object.keys(groupedData),
-        datasets: [
-            {
-                data: Object.values(groupedData).map((arr) => arr.reduce((acc, val) => acc + val, 0)),
-                color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`, // Ajuste a cor conforme necessário
-            },
-        ],
+        const labels = Object.keys(groupedData);
+        const datasets = [{
+            data: labels.map(mes => groupedData[mes].total / groupedData[mes].count),
+            color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`
+        }];
+
+        return { labels, datasets };
     };
+
+    const { labels, datasets } = agruparDadosPorMes();
 
     const filtroBotoes = [
         { label: '0 a 30', value: '0 a 30' },
@@ -94,7 +100,7 @@ export default function GraficoExito() {
 
             <LineChart
                 style={styles.graphStyle}
-                data={data}
+                data={{ labels, datasets }}
                 width={screenWidth}
                 height={220}
                 chartConfig={chartConfig}
